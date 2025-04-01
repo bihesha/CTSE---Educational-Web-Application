@@ -113,6 +113,5 @@ jobs:
 
       - name: Apply Nginx Proxy 
         run: |
-          kubectl apply -f k8s/nginx.conf
-          kubectl set image deployment/nginx-proxy nginx=bihesha1999/proxy:latest
+          kubectl apply -f k8s/nginx-proxy-deployment.yaml
 
