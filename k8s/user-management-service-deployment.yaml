@@ -24,3 +24,31 @@ spec:
           limits:
             cpu: "500m"
             memory: "512Mi"
+        env:
+          - name: MONGODB_URL
+            valueFrom:
+              secretKeyRef:
+                name: user-management-secrets
+                key: USER_MANAGEMENT_MONGODB_URL
+          - name: CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: user-management-secrets
+                key: USER_MANAGEMENT_CLIENT_ID
+          - name: CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: user-management-secrets
+                key: USER_MANAGEMENT_CLIENT_SECRET
+          - name: SESSION_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: user-management-secrets
+                key: USER_MANAGEMENT_SESSION_SECRET
+          - name: NODE_ENV
+            value: "production"
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: user-management-secrets
+                key: USER_MANAGEMENT_JWT_SECRET
