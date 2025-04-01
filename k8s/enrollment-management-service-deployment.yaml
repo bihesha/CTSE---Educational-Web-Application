@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: enrollment-management-service
-        image: bihesha1999/enrollment-management-service:latest
+        image: bihesha1999/enrollment-management-service_image:latest
         ports:
         - containerPort: 3004
         resources:
