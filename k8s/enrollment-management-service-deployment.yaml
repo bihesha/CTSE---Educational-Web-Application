@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enrollment-management-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enrollment-management-service
+  template:
+    metadata:
+      labels:
+        app: enrollment-management-service
+    spec:
+      containers:
+      - name: enrollment-management-service
+        image: bihesha1999/enrollment-management-service:latest
+        ports:
+        - containerPort: 3004
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
