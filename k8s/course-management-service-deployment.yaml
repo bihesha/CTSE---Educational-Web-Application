@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: course-management-service
-        image: bihesha1999/course-management-service:latest
+        image: bihesha1999/course-management-service_image:latest
         ports:
         - containerPort: 3002
           resources:
