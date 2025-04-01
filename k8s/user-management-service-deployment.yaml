@@ -45,10 +45,10 @@ spec:
               secretKeyRef:
                 name: user-management-secrets
                 key: USER_MANAGEMENT_SESSION_SECRET
-          - name: NODE_ENV
-            value: "production"
           - name: JWT_SECRET
             valueFrom:
               secretKeyRef:
                 name: user-management-secrets
                 key: USER_MANAGEMENT_JWT_SECRET
+          - name: NODE_ENV  # ✅ Use `value` because it's not sensitive
+            value: "production"
