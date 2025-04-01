@@ -44,8 +44,8 @@ jobs:
 
       - name: Build and Push Client Docker Image
         run: |
-          docker build -t bihesha1999/client_image:latest ./Client
-          docker push bihesha1999/Client_image:latest
+          docker build -t bihesha1999/client_image:latest ./client
+          docker push bihesha1999/client_image:latest
 
       - name: Build and Push Nginx Docker Image
         run: |
