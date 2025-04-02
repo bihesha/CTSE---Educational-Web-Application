@@ -90,8 +90,6 @@ jobs:
         run: |
           kubectl set env deployment/user-management-service \
             MONGODB_URL="${{ secrets.USER_MANAGEMENT_MONGODB_URL }}" \
-            CLIENT_ID="${{ secrets.USER_MANAGEMENT_CLIENT_ID }}" \
-            CLIENT_SECRET="${{ secrets.USER_MANAGEMENT_CLIENT_SECRET }}" \
             SESSION_SECRET="${{ secrets.USER_MANAGEMENT_SESSION_SECRET }}" \
             NODE_ENV="production" \
             JWT_SECRET="${{ secrets.USER_MANAGEMENT_JWT_SECRET }}"

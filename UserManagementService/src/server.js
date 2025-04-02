@@ -6,7 +6,7 @@ const connectToDatabase = require('./config/database');
 const { authenticate } = require("./middleware/authMiddleware");
 const helmet = require("helmet"); // use helmet package for secure csp policy
 const MongoStore = require('connect-mongo'); 
-const passport = require("passport");
+// const passport = require("passport");
 //const cookieSession = require("cookie-session");
 const session = require('express-session');
 const passportStrategy = require("./passport");
@@ -119,8 +119,8 @@ const authenticateRole = require('./routes/authenticateRole');
 app.use('/authenticate-role', authenticateRole);
 
 // auth routes
-const googleauthRouter = require('./routes/googleRoutes');
-app.use('/google-auth',googleauthRouter);
+// const googleauthRouter = require('./routes/googleRoutes');
+// app.use('/google-auth',googleauthRouter);
 
 
 
