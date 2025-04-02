@@ -24,7 +24,7 @@ app.use(
 // Session configuration with MongoDB store
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'your_fallback_secret',
+    secret: process.env.USER_MANAGEMENT_SESSION_SECRET || 'your_fallback_secret',
     resave: false,
     saveUninitialized: false,
     cookie: { 
@@ -33,7 +33,7 @@ app.use(
       maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds (adjust as needed)
     },
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URL, // MongoDB URL for session storage
+      mongoUrl: process.env.USER_MANAGEMENT_MONGODB_URL, // MongoDB URL for session storage
       ttl: 1 * 24 * 60 * 60 // 14 days session expiration time
     })
   })
@@ -92,7 +92,7 @@ app.use((req, res, next) => {
 })
 
 //database and server connection
-connectToDatabase(process.env.MONGODB_URL);
+connectToDatabase(process.env.USER_MANAGEMENT_MONGODB_URL);
 
 app.listen(PORT, () => {
     console.log(`server is up and running on port number: ${PORT}`)
