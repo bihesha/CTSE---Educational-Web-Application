@@ -3,7 +3,7 @@ name: CI/CD Pipeline for Kubernetes
 on:
   push:
     branches:
-      - main  # Runs when code is pushed to the 'main' branch
+      - main
 
 jobs:
   build_and_push:
@@ -17,38 +17,26 @@ jobs:
       - name: Log in to DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Build and Push Docker Image for UserManagementService
+      - name: Build and Push Docker Images
         run: |
           docker build -t bihesha1999/user-management-service_image:latest ./UserManagementService
           docker push bihesha1999/user-management-service_image:latest
-
-      - name: Build and Push Docker Image for CourseManagementService
-        run: |
+          
           docker build -t bihesha1999/course-management-service_image:latest ./CourseManagementService
           docker push bihesha1999/course-management-service_image:latest
-
-      - name: Build and Push Docker Image for PaymentManagementService
-        run: |
+          
           docker build -t bihesha1999/payment-management-service_image:latest ./PaymentManagementService
           docker push bihesha1999/payment-management-service_image:latest
-
-      - name: Build and Push Docker Image for EnrollmentManagementService
-        run: |
+          
           docker build -t bihesha1999/enrollment-management-service_image:latest ./EnrollmentManagementService
           docker push bihesha1999/enrollment-management-service_image:latest
-
-      - name: Build and Push Docker Image for api-gateway
-        run: |
+          
           docker build -t bihesha1999/api-gateway_image:latest ./api-gateway
           docker push bihesha1999/api-gateway_image:latest
-
-      - name: Build and Push Client Docker Image
-        run: |
+          
           docker build -t bihesha1999/client_image:latest ./client
           docker push bihesha1999/client_image:latest
-
-      - name: Build and Push Nginx Docker Image
-        run: |
+          
           docker build -t bihesha1999/proxy_image:latest ./proxy
           docker push bihesha1999/proxy_image:latest
 
@@ -71,47 +59,33 @@ jobs:
       - name: Update kubeconfig for EKS
         run: aws eks update-kubeconfig --region ap-southeast-1 --name education-web
 
+      - name: Create Kubernetes Secrets
+        run: |
+          # Create secret for Google OAuth
+          kubectl create secret generic google-oauth-secrets \
+            --from-literal=CLIENT_ID=${{ secrets.USER_MANAGEMENT_CLIENT_ID }} \
+            --from-literal=CLIENT_SECRET=${{ secrets.USER_MANAGEMENT_CLIENT_SECRET }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+          
+          # Create secret for MongoDB URLs
+          kubectl create secret generic mongodb-urls \
+            --from-literal=USER_MANAGEMENT=${{ secrets.USER_MANAGEMENT_MONGODB_URL }} \
+            --from-literal=COURSE_MANAGEMENT=${{ secrets.COURSE_MANAGEMENT_MONGODB_URL }} \
+            --from-literal=PAYMENT_MANAGEMENT=${{ secrets.PAYMENT_MANAGEMENT_MONGODB_URL }} \
+            --from-literal=ENROLLMENT_MANAGEMENT=${{ secrets.ENROLLMENT_MANAGEMENT_MONGODB_URL }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+          
+          # Create secret for JWT and session
+          kubectl create secret generic auth-secrets \
+            --from-literal=JWT_SECRET=${{ secrets.USER_MANAGEMENT_JWT_SECRET }} \
+            --from-literal=SESSION_SECRET=${{ secrets.USER_MANAGEMENT_SESSION_SECRET }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Apply Kubernetes Manifests
         run: |
-          kubectl apply -f k8s/user-management-service.yaml
-          kubectl apply -f k8s/user-management-service-deployment.yaml
-          kubectl apply -f k8s/payment-management-service.yaml
-          kubectl apply -f k8s/payment-management-service-deployment.yaml
-          kubectl apply -f k8s/course-management-service.yaml
-          kubectl apply -f k8s/course-management-service-deployment.yaml
-          kubectl apply -f k8s/enrollment-management-service.yaml
-          kubectl apply -f k8s/enrollment-management-service-deployment.yaml
-          kubectl apply -f k8s/gateway-service.yaml
-          kubectl apply -f k8s/gateway-deployment.yaml
-          kubectl apply -f k8s/client-service.yaml
-          kubectl apply -f k8s/client-service-deployment.yaml
-
-      - name: Set Environment Variables for UserManagementService
+          kubectl apply -f k8s/
+          
+      - name: Verify Deployments
         run: |
-          kubectl set env deployment/user-management-service \
-            MONGODB_URL="${{ secrets.USER_MANAGEMENT_MONGODB_URL }}" \
-            CLIENT_ID="${{ secrets.USER_MANAGEMENT_CLIENT_ID }}" \
-            CLIENT_SECRET="${{ secrets.USER_MANAGEMENT_CLIENT_SECRET }}" \
-            SESSION_SECRET="${{ secrets.USER_MANAGEMENT_SESSION_SECRET }}" \
-            NODE_ENV="production" \
-            JWT_SECRET="${{ secrets.USER_MANAGEMENT_JWT_SECRET }}"
-
-      - name: Set Environment Variables for CourseManagementService
-        run: |
-          kubectl set env deployment/course-management-service \
-            MONGODB_URL="${{ secrets.COURSE_MANAGEMENT_MONGODB_URL }}"
-
-      - name: Set Environment Variables for PaymentManagementService
-        run: |
-          kubectl set env deployment/payment-management-service \
-            MONGODB_URL="${{ secrets.PAYMENT_MANAGEMENT_MONGODB_URL }}"
-
-      - name: Set Environment Variables for EnrollmentManagementService
-        run: |
-          kubectl set env deployment/enrollment-management-service \
-            MONGODB_URL="${{ secrets.ENROLLMENT_MANAGEMENT_MONGODB_URL }}"
-
-      - name: Apply Nginx Proxy 
-        run: |
-          kubectl apply -f k8s/nginx-proxy-deployment.yaml
-
+          kubectl get pods -w
+          kubectl get services
