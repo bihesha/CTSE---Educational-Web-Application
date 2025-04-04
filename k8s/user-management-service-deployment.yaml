@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: user-management-service
-        image: bihesha1999/user-management-service_new_image:latest
+        image: bihesha1999/user-management-service_new2_image:latest
         ports:
           - containerPort: 3001
         resources:
