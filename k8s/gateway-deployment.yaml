@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: gateway
-        image: bihesha1999/api-gateway_image:latest
+        image: bihesha1999/api-gateway_new_image:latest
         ports:
         - containerPort: 8800
         resources:

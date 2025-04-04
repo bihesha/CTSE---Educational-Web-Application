@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: client-service
-        image: bihesha1999/client_image:latest
+        image: bihesha1999/client_new_image:latest
         ports:
         - containerPort: 3000
         env:
