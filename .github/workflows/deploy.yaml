@@ -19,8 +19,8 @@ jobs:
 
       - name: Build and Push Docker Image for UserManagementService
         run: |
-          docker build -t bihesha1999/user-management-service_image:latest ./UserManagementService
-          docker push bihesha1999/user-management-service_image:latest
+          docker build -t bihesha1999/user-management-service_new_image:latest ./UserManagementService
+          docker push bihesha1999/user-management-service_new_image:latest
 
       - name: Build and Push Docker Image for CourseManagementService
         run: |
@@ -39,13 +39,13 @@ jobs:
 
       - name: Build and Push Docker Image for api-gateway
         run: |
-          docker build -t bihesha1999/api-gateway_image:latest ./api-gateway
-          docker push bihesha1999/api-gateway_image:latest
+          docker build -t bihesha1999/api-gateway_new_image:latest ./api-gateway
+          docker push bihesha1999/api-gateway_new_image:latest
 
       - name: Build and Push Client Docker Image
         run: |
-          docker build -t bihesha1999/client_image:latest ./client
-          docker push bihesha1999/client_image:latest
+          docker build -t bihesha1999/client_new_image:latest ./client
+          docker push bihesha1999/client_new_image:latest
 
       - name: Build and Push Nginx Docker Image
         run: |
