@@ -19,8 +19,8 @@ jobs:
 
       - name: Build and Push Docker Image for UserManagementService
         run: |
-          docker build -t bihesha1999/user-management-service_new2_image:latest ./UserManagementService
-          docker push bihesha1999/user-management-service_new2_image:latest
+          docker build -t bihesha1999/user-management-service_new3_image:latest ./UserManagementService
+          docker push bihesha1999/user-management-service_new3_image:latest
 
       - name: Build and Push Docker Image for CourseManagementService
         run: |
