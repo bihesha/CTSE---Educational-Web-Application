@@ -10,7 +10,8 @@ const useAuth = () => {
 
     const studentSignup = async (Fullname, Email, Password) => {
         try {
-            const response = await axios.post('http://a81833cb947bc4749b58e1123b5a6953-1335077404.ap-southeast-1.elb.amazonaws.com/UserManagementService/auth/registerStudent', {
+            const response = await axios.post('http://localhost:8800/UserManagementService/auth/registerStudent', {
+
                 Fullname,
                 Email,
                 Password
@@ -28,7 +29,8 @@ const useAuth = () => {
 
     const instructorSignup = async (Instructorname, Email, Password) => {
         try {
-            const response = await axios.post('http://a81833cb947bc4749b58e1123b5a6953-1335077404.ap-southeast-1.elb.amazonaws.com/UserManagementService/auth/registerInstructor',{
+            const response = await axios.post('http://localhost:8800/UserManagementService/auth/registerInstructor',{
+
                 Instructorname,
                 Email,
                 Password
@@ -46,7 +48,8 @@ const useAuth = () => {
 
     const login = async (Email, Password) => {
         try {
-            const response = await axios.post('http://a81833cb947bc4749b58e1123b5a6953-1335077404.ap-southeast-1.elb.amazonaws.com/UserManagementService/auth/login', {
+            const response = await axios.post('http://localhost:8800/UserManagementService/auth/login', {
+
                 Email,
                 Password
             });
